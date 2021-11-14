@@ -11,10 +11,10 @@ const int BLUE_DIODE = 2;
 const int RED_DIODE = 3;
 const int YELLOW_DIODE = 4;
 
-const String BLUE_ON = "blue on";
-const String RED_ON = "red on";
-const String YELLOW_ON = "yellow on";
-const String DIODES_OFF = "diodes off";
+const String BLUE_ON = "b'blue on'";
+const String RED_ON = "b'red on'";
+const String YELLOW_ON = "b'yellow on'";
+const String DIODES_OFF = "b'diodes off'";
 
 String received = "";
 
