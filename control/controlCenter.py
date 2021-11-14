@@ -22,8 +22,9 @@ def sendToArduino(msg: str):
 
 if __name__ == '__main__':
     try:
-        msg = input("Enter message to Arduino: ")
-        sendToArduino(msg)
+        while True:
+            msg = input("Enter message to Arduino: ")
+            sendToArduino(msg)
     except KeyboardInterrupt:
         sendToArduino("diodes off")
         print("CTRL+C pressed. Finishing")
