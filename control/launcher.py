@@ -17,7 +17,7 @@ def checkAndStartControlCenter():
         if p.name() == "python.exe" and len(p.cmdline()) > 1 and "controlCenter.py" in p.cmdline()[1]:
             return
     terminalCommand.sendCommandNewTerminal(
-        "python controlCenter.py")
+        "python3 controlCenter.py")
 
 
 def checkAndStartFlaskServer():
@@ -26,7 +26,7 @@ def checkAndStartFlaskServer():
         if p.name() == "python.exe" and len(p.cmdline()) > 1 and "flaskServer.py" in p.cmdline()[1]:
             return
     terminalCommand.sendCommandNewTerminal(
-        "python flaskServer.py")
+        "python3 flaskServer.py")
 
 
 def checkAndStartAudio():
@@ -35,7 +35,7 @@ def checkAndStartAudio():
         if p.name() == "python.exe" and len(p.cmdline()) > 1 and "speechControl.py" in p.cmdline()[1]:
             return
     terminalCommand.sendCommandNewTerminal(
-        "python speechControl.py")
+        "python3 speechControl.py")
 
 
 def checkAllProcesses():
