@@ -12,7 +12,12 @@ import zmq
 import serial
 import time
 
-arduino = serial.Serial(port='COM3', baudrate=9600, timeout=.1)
+# for pc (windows)
+# arduino = serial.Serial(port='COM3', baudrate=9600, timeout=.1)
+
+# for raspberry pi
+arduino = serial.Serial(port='/dev/ttyACM0', baudrate=9600, timeout=.1)
+
 
 ctx = zmq.Context()
 recivSocket = ctx.socket(zmq.REP)
