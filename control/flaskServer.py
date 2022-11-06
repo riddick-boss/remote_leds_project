@@ -3,7 +3,7 @@ Created Date: Sunday, November 14th 2021
 Author: Pawel Kremienowski
 Author email: Kremienowski33@gmail.com
 -----
-Last Modified: Sun Nov 14 2021
+Last Modified: Sun Nov 06 2022
 Modified By: Pawel Kremienowski
 '''
 
@@ -11,11 +11,13 @@ Modified By: Pawel Kremienowski
 import zmq
 import flask
 
+import constants
+
 app = flask.Flask(__name__)
 
 ctx = zmq.Context()
-sendSocket = ctx.socket(zmq.REQ)
-sendSocket.connect("tcp://localhost:5555")
+sendSocket = ctx.socket(zmq.PUSH)
+sendSocket.connect(constants.SOCKET)
 
 
 @app.route('/testConnection', methods=["GET"])
@@ -28,26 +30,18 @@ def name():
     return flask.jsonify(msg="RemoteLedsProject")
 
 
-@app.route('/isRobot', methods=["GET"])
+@app.route('/areRemoteLeds', methods=["GET"])
 def isRobot():
     return "True"
-
-
-@app.route('/login', methods=["POST"])
-def login():
-    if flask.request.form['password'] == "admin":
-        return "Pass_OK"
-    else:
-        flask.abort(401)
 
 
 @app.route('/doTask/<command>', methods=["POST"])
 def doTask(command):
     command = str(command)
     sendSocket.send_string(f"{command}")
-    sendSocket.recv()
     return "Command sent"
 
 
 if __name__ == '__main__':
+    print("Launching flask server...")
     app.run(host='0.0.0.0', port=5000)
