@@ -3,7 +3,7 @@ Created Date: Sunday, November 14th 2021
 Author: Pawel Kremienowski
 Author email: Kremienowski33@gmail.com
 -----
-Last Modified: Sun Nov 06 2022
+Last Modified: Sat Nov 12 2022
 Modified By: Pawel Kremienowski
 '''
 
@@ -32,13 +32,13 @@ def name():
 
 @app.route('/areRemoteLeds', methods=["GET"])
 def isRobot():
-    return "True"
+    return flask.jsonify(True)
 
 
 @app.route('/doTask/<command>', methods=["POST"])
 def doTask(command):
-    command = str(command)
-    sendSocket.send_string(f"{command}")
+    commandToPass = str(command).replace("_", " ")
+    sendSocket.send_string(commandToPass)
     return "Command sent"
 
 
