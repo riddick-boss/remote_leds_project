@@ -1,0 +1,5 @@
+Flask==2.1.1
+psutil==5.9.4
+pyserial==3.5
+pyttsx3==2.90
+pyzmq==24.0.1
