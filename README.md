@@ -20,7 +20,7 @@ Install PyAudio:
 
 and then:
 
-``` pip install pyzmq pyserial Flask psutil SpeechRecognition pyttsx3 PyAudio ```
+``` pip install -r requirements.txt ```
 
 ## Run with:
 
