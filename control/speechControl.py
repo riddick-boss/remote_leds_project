@@ -3,7 +3,7 @@ Created Date: Sunday, November 14th 2021
 Author: Pawel Kremienowski
 Author email: Kremienowski33@gmail.com
 -----
-Last Modified: Sun Nov 14 2021
+Last Modified: Sun Nov 06 2022
 Modified By: Pawel Kremienowski
 '''
 
@@ -12,8 +12,10 @@ import speech_recognition
 import pyttsx3
 import zmq
 
+import constants
+
 recognizer = speech_recognition.Recognizer()
-engine = pyttsx3.init()
+engine = pyttsx3.init('dummy')
 engine.setProperty("rate", 135)
 # voice list may vary - choose english one
 # check available voices by running:
@@ -29,11 +31,12 @@ voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id)
 
 ctx = zmq.Context()
-sendSocket = ctx.socket(zmq.REQ)
-sendSocket.connect("tcp://localhost:5555")
+sendSocket = ctx.socket(zmq.PUSH)
+sendSocket.connect(constants.SOCKET)
 
 
 if __name__ == "__main__":
+    print("Launching speech control...")
     try:
         while True:
             with speech_recognition.Microphone() as mic:
@@ -47,7 +50,6 @@ if __name__ == "__main__":
                     data = data.strip().lower()
                     print(f"You said: {data}")
                     sendSocket.send_string(f"{data}")
-                    sendSocket.recv()
                 except speech_recognition.RequestError:
                     print("Api unreachable")
                 except speech_recognition.UnknownValueError:

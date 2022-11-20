@@ -11,41 +11,42 @@ Modified by: Pawel Kremienowski
 import zmq
 import serial
 import time
+import os
 
-# for pc (windows)
-# arduino = serial.Serial(port='COM3', baudrate=9600, timeout=.1)
+import constants
 
-# for raspberry pi
-arduino = serial.Serial(port='/dev/ttyACM0', baudrate=9600, timeout=.1)
-
-
-ctx = zmq.Context()
-recivSocket = ctx.socket(zmq.REP)
+def createSocket(ctx: zmq.Context) -> zmq.Socket:
+    socket = ctx.socket(zmq.PULL) # reciv type
+    socket.bind(constants.SOCKET)
+    return socket
 
 
-def sendToArduino(msg: str):
+def createArduinoSerial() -> serial.Serial:
+    if os.name == 'nt':# windows
+        return serial.Serial(port='COM3', baudrate=9600, timeout=.1)
+    elif os.name == "posix": # linux
+        return serial.Serial(port='/dev/ttyACM0', baudrate=9600, timeout=.1)
+
+
+def sendToArduino(arduino: serial.Serial, msg: str):
     arduino.write(bytes(msg, 'utf-8'))
     time.sleep(0.2)
 
 
-def prepareSocket():
-    global recivSocket
-    recivSocket.bind("tcp://*:5555")
-
-
-def getData():
-    global recivSocket
-    data = str(recivSocket.recv())
-    recivSocket.send_string(f"received")
-    return data
+def getData(socket: zmq.Socket):
+    return str(socket.recv())
 
 
 if __name__ == '__main__':
-    prepareSocket()
+    print("Launching contol center...")
+    ctx = zmq.Context()
+    socket = createSocket(ctx)
+    arduino = createArduinoSerial()
+
     try:
         while True:
-            msg = getData()
-            sendToArduino(msg)
+            msg = getData(socket)
+            sendToArduino(arduino, msg)
             print(msg)
     except KeyboardInterrupt:
         sendToArduino("diodes off")

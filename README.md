@@ -9,3 +9,20 @@ This repo contains source code for Arduino, server and speech recognition functi
 If you want to know more about mobile app contact me via Kremienowski33@gmail.com.
 
 Python 3.6 recommended, but works fine on 3.9.
+
+## Required Python packages installation
+
+Install PyAudio:
+
+- on Linux: ``` sudo apt install python3-pyaudio ```
+- on Windows: ``` python -m pip install pyaudio ```
+- on Mac: ``` brew install portaudio && pip install pyaudio ```
+
+and then:
+
+``` pip install -r requirements.txt ```
+
+## Run with:
+
+``` python3 launcher.py ``` 
+from controls/ dir
